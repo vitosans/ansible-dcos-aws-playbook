@@ -15,7 +15,7 @@
   ec2_vpc_subnet:
     state: present
     vpc_id: "{{ vpc.vpc.id }}"
-    cidr: 10.0.0.0/24
+    cidr: 192.0.0.0/24
     region: "{{ ec2_region }}"
     az: "{{ ec2_availability_zones[0] }}"
     resource_tags: { Name: subnet-public }
@@ -28,7 +28,7 @@
   ec2_vpc_subnet:
     state: present
     vpc_id: "{{ vpc.vpc.id }}"
-    cidr: 10.0.2.0/24
+    cidr: 192.0.2.0/24
     region: "{{ ec2_region }}"
     az: "{{ ec2_availability_zones[1] }}"
     resource_tags: { Name: subnet-public2 }
@@ -40,7 +40,7 @@
   ec2_vpc_subnet:
     state: present
     vpc_id: "{{ vpc.vpc.id }}"
-    cidr: 10.0.1.0/24
+    cidr: 192.0.1.0/24
     region: "{{ ec2_region }}"
     az: "{{ ec2_availability_zones[0] }}"
     resource_tags: { Name: subnet-private }
