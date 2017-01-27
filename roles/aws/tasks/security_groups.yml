@@ -23,8 +23,8 @@
         to_port: 443
         cidr_ip: 0.0.0.0/0
 
-      # Open all tcp ports for 10.0.0.0/8.
+      # Open all tcp ports for 192.0.0.0/8.
       - proto: all
         from_port: -1
         to_port: -1
-        cidr_ip: 10.0.0.0/16
+        cidr_ip: 192.0.0.0/16
