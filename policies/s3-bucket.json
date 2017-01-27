@@ -1,0 +1,19 @@
+{
+    "Id": "Policy1485292548866",
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1485292546257",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:s3:::s3_bucket_name_you_choose_and_a_good_uuid-8ab09123c2cf/logs/AWSLogs/YOURACCOUNTID/*",
+            "Principal": {
+                "AWS": [
+                    "PRINCIPAL_ID"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "Id": "AllowELBWriteAccess",
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1454671534294",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:s3:::{{ s3_bucket_name }}-{{ aws_account_number }}/{{ s3_prefix }}*",
+            "Principal": {
+                "AWS": [
+                    "{{ elb_principal_mappings[region] }}"
+                ]
+            }
+        }
+    ]
+}
