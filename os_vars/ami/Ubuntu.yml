@@ -1,4 +1,4 @@
 ---
-Ubuntu 16.04 LTS 
-dcos_ami_id: "ami-c06b1eb3"
+# Ubuntu 16.04 LTS 
+dcos_ami_id: "{{ lookup('env', 'EC2_AMI_IMAGE') | default('ami-1b772d7e') }}"
 
