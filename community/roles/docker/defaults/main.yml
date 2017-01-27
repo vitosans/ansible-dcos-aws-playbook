@@ -1,0 +1,9 @@
+---
+# Default Docker storage driver, see https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/
+# for more information.
+storage_driver: overlay2
+
+install_apparmor: false
+
+apt_keyserver: hkp://ha.pool.sks-keyservers.net
+apt_key_id: 58118E89F3A912897C070ADBF76221572C52609D

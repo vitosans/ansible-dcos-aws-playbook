@@ -1,0 +1,16 @@
+---
+
+- name: Download and install DCOS CLI
+  command: curl {{ dcos_cli_url }} -o {{ dcos_cli_install_path }} creates={{ dcos_cli_install_path }}
+
+- name: Make DCOS CLI executable
+  file: path={{ dcos_cli_install_path }} state=touch mode={{ dcos_cli_file_mode }}
+
+- name: Configure DCOS CLI to point to the first master node.
+  command: "{{ dcos_cli_install_path }} config set core.dcos_url http://{{ hostvars[groups['tag_dcos_master'][0]].ec2_private_dns_name }}"
+
+- debug: var=dcos_install_demos verbosity=1
+
+- name: Install DCOS demo(s) on cluster
+  include: install_demos.yml
+  when: dcos_install_demos == true

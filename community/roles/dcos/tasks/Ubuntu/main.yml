@@ -1,0 +1,13 @@
+---
+
+- name: Create symbolic links needed by the installer
+  file: src={{ item.src }} dest={{ item.dest }} state=link
+  with_items:
+    - { src: '/bin/mkdir', dest: '/usr/bin/mkdir' }
+    - { src: '/bin/ln', dest: '/usr/bin/ln' }
+    - { src: '/bin/tar', dest: '/usr/bin/tar' }
+    - { src: '/bin/rm', dest: '/usr/bin/rm' }
+    - { src: '/usr/sbin/useradd', dest: '/sbin/useradd' }
+
+- name: Update all packages to the latest version
+  apt: upgrade=dist

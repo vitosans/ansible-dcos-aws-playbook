@@ -1,0 +1,26 @@
+---
+
+- name: Copy 'options.json' to controller host.
+  copy: src=demos/service_discovery_and_load_balancing/options.json dest=./options.json mode=0440
+
+- name: Set up marathon-lb for internal LB using 'options.json'
+  command:  "{{ dcos_cli_install_path }} package install --options=./options.json --yes marathon-lb"
+
+- name: Copy 'nginx-external.json' to controller host.
+  copy: src=demos/service_discovery_and_load_balancing/nginx-external.json dest=./nginx-external.json mode=0440
+
+- name: Launch external nginx sample application.
+  command: "{{ dcos_cli_install_path }} marathon app add ./nginx-external.json"
+
+- name: Copy 'nginx-internal.json' to controller host.
+  copy: src=demos/service_discovery_and_load_balancing/nginx-internal.json dest=./nginx-internal.json mode=0440
+
+- name: Launch internal nginx sample application.
+  command: "{{ dcos_cli_install_path }} marathon app add ./nginx-internal.json"
+
+- name: Copy 'nginx-everywhere.json' to controller host.
+  copy: src=demos/service_discovery_and_load_balancing/nginx-everywhere.json dest=./nginx-everywhere.json mode=0440
+
+- name: Launch everywhere nginx sample application.
+  command: "{{ dcos_cli_install_path }} marathon app add ./nginx-everywhere.json"
+

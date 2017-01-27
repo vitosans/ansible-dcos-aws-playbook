@@ -1,0 +1,33 @@
+{
+  "id": "dockercloud-hello-world",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "dockercloud/hello-world",
+      "network": "BRIDGE",
+      "portMappings": [
+        { "hostPort": 0, "containerPort": 80, "servicePort": {{ dockercloud_demo_service_port }} }
+      ],
+      "forcePullImage":true
+    }
+  },
+  "instances": {{dockercloud_demo_instances}},
+  "cpus": {{ dockercloud_demo_cpu }},
+  "mem": {{ dockercloud_demo_mem  }},
+  "healthChecks": [{
+      "protocol": "HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "timeoutSeconds": 10,
+      "gracePeriodSeconds": 10,
+      "intervalSeconds": 2,
+      "maxConsecutiveFailures": 10
+  }],
+  "labels":{
+    "HAPROXY_GROUP":"{{ dockercloud_demo_haproxy_group  }}",
+    "HAPROXY_{{ dockercloud_demo_service_index }}_PATH": "{{ dockercloud_demo_haproxy_path }}",
+    "HAPROXY_{{ dockercloud_demo_service_index }}_VHOST": "{{ dockercloud_demo_haproxy_vhost }}",
+    "HAPROXY_{{ dockercloud_demo_service_index }}_HTTP_BACKEND_PROXYPASS_PATH": "{{ dockercloud_demo_haproxy_backend_proxypass_path }}"
+  }
+}
+

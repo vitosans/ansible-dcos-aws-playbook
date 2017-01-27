@@ -1,0 +1,23 @@
+---
+
+- debug: var=dockercloud_demo_service_port verbosity=1
+- debug: var=dockercloud_demo_service_index verbosity=1
+- debug: var=dockercloud_demo_instances verbosity=1
+- debug: var=dockercloud_demo_cpu verbosity=1
+- debug: var=dockercloud_demo_mem verbosity=1
+- debug: var=dockercloud_demo_haproxy_group verbosity=1
+- debug: var=dockercloud_demo_haproxy_path verbosity=1
+- debug: var=dockercloud_demo_haproxy_vhost verbosity=1
+- debug: var=dockercloud_demo_haproxy_backend_proxypass_path verbosity=1
+
+#- name: Copy 'dockercloud.json' to controller host.
+#  copy: src=demos/dockercloud_hello_world/dockercloud.json dest=./dockercloud.json mode=0440
+- name: Template 'dockercloud.json' to controller host.
+  template:
+    src: demos/dockercloud_hello_world/dockercloud.json.j2
+    dest: ./dockercloud.json
+    mode: 0440
+    
+- name: Launch external Dockercloud hello-world sample application.
+  command: "{{ dcos_cli_install_path }} marathon app add ./dockercloud.json"
+

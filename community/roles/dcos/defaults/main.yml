@@ -1,0 +1,9 @@
+---
+bootstrap_port: 9000
+bootstrap_script: dcos_install.sh
+dcos_temp_dir: /tmp/dcos
+bootstrap_url: "http://{{ hostvars[groups['tag_dcos_bootstrap'][0]]['ansible_eth0']['ipv4']['address'] }}:{{ bootstrap_port }}/{{ bootstrap_script }}"
+
+dcos_node_type: master
+
+

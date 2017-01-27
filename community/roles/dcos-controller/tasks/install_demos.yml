@@ -1,0 +1,23 @@
+---
+
+- name: Template 'marathon-lb.json' to controller host.
+  template:
+    src: marathon-lb.json.j2
+    dest: ./marathon-lb.json
+    mode: 0440
+
+- name: Install marathon-lb load balancer
+  command: "{{ dcos_cli_install_path }} marathon app add ./marathon-lb.json"
+
+- debug: var=dcos_install_demo_sd_and_lb_nginx verbosity=1
+
+- name: Install demo Service Discovery and load balancing on nginx
+  include: demos/service_discovery_and_load_balancing/install_demo.yml
+  when: dcos_install_demo_sd_and_lb_nginx == true
+
+- debug: var=dcos_install_demo_dockercloud_hello_world verbosity=1
+
+- name: Insstall demo Dockercloud hello-world
+  include: demos/dockercloud_hello_world/install_demo.yml
+  when: dcos_install_demo_dockercloud_hello_world == true
+

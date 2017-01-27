@@ -1,0 +1,24 @@
+---
+
+dcos_cli_url: https://downloads.dcos.io/binaries/cli/linux/x86-64/dcos-1.8/dcos
+dcos_cli_install_path: /usr/local/bin/dcos
+dcos_cli_file_mode: 0755 # -rwxr-xr-x
+dcos_install_demos: "{{ lookup('env', 'DCOS_CONTROLLER_INSTALL_DEMOS') | default(true, true) | bool }}"
+dcos_install_demo_sd_and_lb_nginx: "{{ lookup('env', 'DCOS_CONTROLLER_INSTALL_DEMO_SD_AND_LB_NGINX') | default(false, true) | bool }}"
+dcos_install_demo_dockercloud_hello_world: "{{ lookup('env', 'DCOS_CONTROLLER_INSTALL_DOCKERCLOUD_HELLO_WORLD') | default(false, true) | bool }}"
+
+# Marathon-LB defaults
+marathonlb_docker_image: "mesosphere/marathon-lb:v1.4.2"
+marathonlb_base_service_port: 10000
+
+# Docker Cloud demo defaults
+dockercloud_demo_service_port: "{{ lookup('env', 'DOCKERCLOUD_DEMO_SERVICE_PORT') | default(10000, true) }}"
+dockercloud_demo_service_index: "{{ lookup('env', 'DOCKERCLOUD_DEMO_SERVICE_INDEX') | default(0, true) }}"
+dockercloud_demo_instances: "{{ lookup('env', 'DOCKERCLOUD_DEMO_INSTANCES') | default(1, true) }}"
+dockercloud_demo_cpu: "{{ lookup('env', 'DOCKERCLOUD_DEMO_CPU') | default(0.1, true) }}"
+dockercloud_demo_mem: "{{ lookup('env', 'DOCKERCLOUD_DEMO_MEM') | default(64, true) }}"
+dockercloud_demo_haproxy_group: "{{ lookup('env', 'DOCKERCLOUD_DEMO_HAPROXY_GROUP') | default('external', true) }}"
+dockercloud_demo_haproxy_path: "{{ lookup('env', 'DOCKERCLOUD_DEMO_HAPROXY_PATH') | default('/hello-world/', true) }}"
+dockercloud_demo_haproxy_vhost: "{{ lookup('env', 'DOCKERCLOUD_DEMO_HAPROXY_VHOST') }}"
+dockercloud_demo_haproxy_backend_proxypass_path: "{{ lookup('env', 'DOCKERCLOUD_DEMO_HAPROXY_BACKEND_PROXYPASS_PATH') | default('/hello-world/', true) }}"
+

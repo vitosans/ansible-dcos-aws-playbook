@@ -1,0 +1,23 @@
+---
+- name: include platform specific tasks & variables.
+  include: "{{ ansible_distribution }}/main.yml"
+
+- name: Install required software (unzip, ipset etc.)
+  package: name={{item}} state=latest
+  with_items:
+  - ipset
+  - unzip
+  - curl
+
+- name: Create temporary DCOS dirctory
+  file: path="{{dcos_temp_dir}}" state=directory
+
+- name: Download DCOS installer
+  get_url: url={{bootstrap_url}} dest={{dcos_temp_dir}}/{{bootstrap_script}}
+
+- name: Make {{bootstrap_script}} executable
+  file: path={{dcos_temp_dir}}/{{bootstrap_script}} state=touch mode=0700
+
+- name: Run the DCOS installer for node type
+  command: bash {{dcos_temp_dir}}/{{bootstrap_script}} {{dcos_node_type}}
+

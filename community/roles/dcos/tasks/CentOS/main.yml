@@ -1,0 +1,8 @@
+---
+
+- name: Add group 'nogroup' as required by DC/OS installer.
+  group: name=nogroup state=present
+
+- name: Set SELinux to permissive mode.
+  selinux: policy=targeted state=permissive
+

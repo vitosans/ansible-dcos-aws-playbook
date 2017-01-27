@@ -1,0 +1,27 @@
+---
+agent_list:
+{% if groups.tag_dcos_slave is defined %}
+{% for item in groups.tag_dcos_slave %}
+- {{hostvars[item]['ec2_private_ip_address']}}
+{% endfor %}
+{% endif %}
+{% if groups.tag_dcos_slave_public is defined %}
+{% for item in groups.tag_dcos_slave_public %}
+- {{hostvars[item]['ec2_private_ip_address']}}
+{% endfor %}
+{% endif %}
+bootstrap_url: http://{{ansible_eth0.ipv4.address}}:{{bootstrap_port}}
+cluster_name: '{{cluster_name}}'
+exhibitor_storage_backend: static
+ip_detect_filename: /genconf/ip-detect
+master_discovery: static
+master_list:
+{% for item in groups.tag_dcos_master %}
+- {{hostvars[item]['ec2_private_ip_address']}}
+{% endfor %}
+resolvers:
+{% for resolver in dns_resolvers %}
+- {{resolver}}
+{% endfor %}
+oauth_enabled: "{{ dcos_oauth_enabled }}"
+

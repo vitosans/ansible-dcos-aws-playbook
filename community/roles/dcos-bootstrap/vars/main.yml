@@ -1,0 +1,5 @@
+---
+
+bootstrap_container_name: dcos_bootstrap_nginx
+bootstrap_container_image: nginx
+
