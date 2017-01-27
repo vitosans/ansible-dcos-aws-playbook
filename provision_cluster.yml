@@ -6,7 +6,7 @@
   hosts: tag_ssh_jumphost
   gather_facts: false
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   tasks:
   - local_action:
       wait_for
@@ -16,21 +16,28 @@
         timeout=360
         state=started
 
-- name: Install Python on SSH jumphost
+- name: 'Install python on Jumphost'
   hosts: tag_ssh_jumphost
-  become: yes
+  become: True
   become_method: sudo
-  gather_facts: false
+  gather_facts: False
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   tasks:
-    - include: "includes/{{ ec2_target_os }}/install_python.yml"
+    - name: 'Upgrade all packages dist-upgrade'
+      raw: sudo apt-get -y dist-upgrade
+    - name: 'Apt-get update'
+      raw: sudo apt-get update
+    - name: 'Apt-get upgrade'
+      raw: sudo apt-get -y upgrade
+    - name: 'Install python'
+      raw: sudo apt-get -y install python
 
 - name: Wait for nodes SSH from jumphost
   hosts: tag_ssh_jumphost
   gather_facts: false
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   tasks:
   - wait_for:
       host="{{ hostvars[item].ec2_private_ip_address }}"
@@ -40,15 +47,22 @@
       state=started
     with_items: "{{ groups.tag_private_host }}"
 
-- name: Install/upgrade Python
-  hosts: tag_python 
-  become: yes
+- name: 'Install python on hosts with tag_python'
+  hosts: tag_python
+  become: True
   become_method: sudo
-  gather_facts: false
+  gather_facts: False
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
-  pre_tasks:
-    - include: "includes/{{ ec2_target_os }}/install_python.yml"
+    - "os_vars/ssh/Ubuntu.yml"
+  tasks:
+    - name: 'Upgrade all packages dist-upgrade'
+      raw: sudo apt-get -y dist-upgrade
+    - name: 'Apt-get update'
+      raw: sudo apt-get update
+    - name: 'Apt-get upgrade'
+      raw: sudo apt-get -y upgrade
+    - name: 'Install python'
+      raw: sudo apt-get -y install python
 
 # Needs to be a separate playbook task since the Docker service will be restartebd thus loosing running containers..
 - name: Install Pip & Docker on tagged hosts
@@ -57,7 +71,7 @@
   become: true
   become_method: sudo
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   roles:
     - pip
     - docker
@@ -68,7 +82,7 @@
   become: true
   become_method: sudo
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   roles:
     - dcos-bootstrap
 
@@ -78,7 +92,7 @@
   become: true
   become_method: sudo
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   roles:
     - dcos
 
@@ -88,7 +102,7 @@
   become: true
   become_method: sudo
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   vars:
     dcos_node_type: slave
   roles:
@@ -100,7 +114,7 @@
   become: true
   become_method: sudo
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   vars:
     dcos_node_type: slave_public
   roles:
@@ -112,7 +126,7 @@
   become: true
   become_method: sudo
   vars_files:
-    - "os_vars/ssh/{{ ec2_target_os }}.yml"
+    - "os_vars/ssh/Ubuntu.yml"
   tags:
     - dcos-components
     - dcos-demos
