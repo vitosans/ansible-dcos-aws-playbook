@@ -30,21 +30,21 @@
       - name: "dcos_master"
         exact_count: 3
         count_tag: "dcos_master"
-        instance_type: "m3.large"
+        instance_type: "{{ lookup('env', 'EC2_INSTANCE_SIZE_MASTER') | default('m4.large') }}"
         ami_id: "{{ dcos_ami_id }}"
         tags: {Name: dcos-master, private_host: '', python: '', dcos_master: ''}
 
       - name: "dcos_slave"
-        exact_count: 3
+        exact_count: 5
         count_tag: "dcos_slave"
-        instance_type: "m3.large"
+        instance_type: "{{ lookup('env', 'EC2_INSTANCE_SIZE_SLAVE') | default('m4.large') }}"
         ami_id: "{{ dcos_ami_id }}"
         tags: {Name: dcos-slave, private_host: '', python: '', dcos_slave: ''}
 
       - name: "dcos_slave_public"
         exact_count: 1
         count_tag: "dcos_slave_public1"
-        instance_type: "m3.large"
+        instance_type: "{{ lookup('env', 'EC2_INSTANCE_SIZE_SLAVE_PUBLIC') | default('m4.large') }}"
         ami_id: "{{ dcos_ami_id }}"
         assign_public_ip: True
         tags: {Name: dcos-slave-public, private_host: '', python: '', dcos_slave_public: '', subnet: 'subnet-public', dcos_slave_public1: ''}
@@ -52,7 +52,7 @@
       - name: "dcos_slave_public2"
         exact_count: 1
         count_tag: "dcos_slave_public2"
-        instance_type: "m3.large"
+        instance_type: "{{ lookup('env', 'EC2_INSTANCE_SIZE_SLAVE_PUBLIC') | default('m4.large') }}"
         ami_id: "{{ dcos_ami_id }}"
         assign_public_ip: True
         tags: {Name: dcos-slave-public2, private_host: '', python: '', dcos_slave_public: '', subnet: 'subnet-public2', dcos_slave_public2: ''}
@@ -60,7 +60,7 @@
       - name: "dcos-bootstrap"
         exact_count: 1
         count_tag: "dcos_bootstrap"
-        instance_type: "m3.large"
+        instance_type: "{{ lookup('env', 'EC2_INSTANCE_SIZE_BOOTSTRAP') | default('m4.large') }}"
         ami_id: "{{ dcos_ami_id }}"
         assign_public_ip: True
         tags: {Name: dcos-bootstrap, private_host: '', python: '', dcos_bootstrap: '', subnet: 'subnet-public'}
